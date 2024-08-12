@@ -1,0 +1,32 @@
+{
+  "name": "vue-auth-kc",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^1.7.3",
+    "keycloak-js": "^25.0.2",
+    "vue": "^3.4.35"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@vitejs/plugin-vue": "^5.1.2",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.9.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-vue": "^9.27.0",
+    "globals": "^15.9.0",
+    "postcss": "^8.4.41",
+    "prettier": "3.3.3",
+    "tailwindcss": "^3.4.9",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.0.1",
+    "vite": "^5.4.0",
+    "vue-tsc": "^2.0.29"
+  }
+}
