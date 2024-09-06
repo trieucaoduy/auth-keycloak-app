@@ -1,19 +1,18 @@
 import Keycloak from "keycloak-js";
-
-const CLIENT_ID = "vue-test-app"
+import { KEYCLOAK } from "./constants";
 
 interface CallbackOneParam<T1 = void, T2 = void> {
   (param1: T1): T2;
 }
 
 const keycloakInstance = new Keycloak({
-  url: "http://localhost:8080/auth",
-  realm: 'keycloak-demo',
-  clientId: CLIENT_ID
+  url: KEYCLOAK.URL,
+  realm: KEYCLOAK.REALM,
+  clientId: KEYCLOAK.CLIENT_ID
 });
 
-const instance = {
-  redirectUri: "http://localhost:5173",
+const INSTANCE = {
+  redirectUri: KEYCLOAK.REDIRECT_URI,
   enableLogging: true,
   checkLoginIframe: false
 }
@@ -21,7 +20,7 @@ const instance = {
 const login = (onAuthenticatedCallback: CallbackOneParam) => {
   keycloakInstance
     .init({
-      ...instance,
+      ...INSTANCE,
       onLoad: "login-required"
     })
     .then((authenticated) => {
@@ -35,20 +34,15 @@ const login = (onAuthenticatedCallback: CallbackOneParam) => {
 
 const username = (): string | undefined => keycloakInstance?.tokenParsed?.preferred_username;
 
+const instanceToken = () => keycloakInstance?.tokenParsed;
+
 const token = (): string | undefined => keycloakInstance?.token;
 
 const logout = () => keycloakInstance.logout();
 
-const userRoles = (): string[] | undefined => {
-  if (keycloakInstance?.resourceAccess === undefined) return undefined;
-  if (keycloakInstance?.resourceAccess[CLIENT_ID] === undefined) return undefined;
-  
-  return keycloakInstance.resourceAccess[CLIENT_ID].roles;
-}
+const userRoles = (): string[] | undefined => keycloakInstance?.resourceAccess?.[KEYCLOAK.CLIENT_ID]?.roles ?? undefined;
 
-const updateToken = (successCallback: any) => {
-  keycloakInstance.updateToken(5).then(successCallback).catch(doLogin);
-}
+const updateToken = (successCallback: any) => keycloakInstance.updateToken(5).then(successCallback).catch(doLogin);
 
 const doLogin = keycloakInstance.login;
 
@@ -60,8 +54,9 @@ const keycloakService = {
   getAccessToken: token,
   callLogout: logout,
   getUserRoles: userRoles,
-  updateToken: updateToken,
-  isLoggedIn: isLoggedIn
+  updateToken,
+  isLoggedIn,
+  instanceToken,
 }
 
 export default keycloakService;

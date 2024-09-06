@@ -1,9 +1,15 @@
 <script setup lang="ts">
+import keycloakService from './utils/auth';
+
+const username = keycloakService.getUsername();
+
+const instanceToken = keycloakService.instanceToken();
+
+console.log({ instanceToken: instanceToken })
 </script>
 
 <template>
-  <div>
-  </div>
+  <div>{{ username }}</div>
 </template>
 
 <style scoped>

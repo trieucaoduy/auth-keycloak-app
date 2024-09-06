@@ -3,7 +3,6 @@ import keycloakService from "./auth";
 
 const _axios = axios.create();
 
-
 const cb = (config: InternalAxiosRequestConfig) => {
   config.headers.Authorization = `Bearer ${keycloakService.getAccessToken()}`;
   return config;
